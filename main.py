@@ -48,6 +48,8 @@ reader = easyocr.Reader(['en'])
 #
 # # result = reader.readtext(image)
 # print(result)
+
+# This function we will pass our OCR result.
 def pro(result):
     # print(result)
     print("Length of code - {}".format(len(result)))
@@ -60,7 +62,8 @@ def pro(result):
         code1 = []
         codelist=[]
         code = []
-
+        
+        # Checking result length
         if len(result) == 2:
 
             for z in result:
@@ -235,21 +238,27 @@ def pro(result):
 image = cv2.imread("/home/vert/Documents/Refer_Images/image_73823.jpg")
 # image = cv2.imread("/home/vert/Documents/Croped_Code_Image_OpencvMo/image_810.jpg")
 
-kernal = np.ones((5,5),np.uint8)
-dilation_image = cv2.dilate(image,kernal,iterations=1)
-closing_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernal)
-erode=cv2.erode(closing_image,kernel=kernal)
 
-# EASY OCR
+# For image process we need to assign kernal size.(As per your requied we can change and wathch your result)
+kernal = np.ones((5,5),np.uint8)
+
+# convert image to dialation.
+dilation_image = cv2.dilate(image,kernal,iterations=1)
+
+# Convert image into closing (If any blank is there between letter)
+closing_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernal)
+erode=cv2.erode(closing_image,kerne.l=kernal)
+
+# Calling above function and passig image into easyocr to extract number form image.
 result = pro(reader.readtext(image))
 result1 = pro(reader.readtext(dilation_image))
 result2 = pro(reader.readtext(closing_image))
 
-
+# Print result
 print("Normal Image result-{}".format(result))
 print("closing OCR result-{}".format(result2))
 
-
+# Display your image
 cv2.imshow("Image", closing_image)
 cv2.waitKey(0)
 #.
